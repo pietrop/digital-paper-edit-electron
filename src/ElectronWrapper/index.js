@@ -155,6 +155,7 @@ class ElectronWrapper {
               newTranscriptDataSTTResultRes.url = tmpTranscript.url
             }
             db.update('transcripts', { _id: newTranscriptDataSTTResultRes.id }, newTranscriptDataSTTResultRes );
+            this.createTranscriptSttOriginal(projectId, transcriptId, newTranscriptDataSTTResultRes);
           }
       })
       
@@ -630,6 +631,22 @@ class ElectronWrapper {
         console.log(err)
       })
     })
+  }
+
+  async createTranscriptSttOriginal(projectId, transcriptId, data){
+    const newTranscriptDataSttOriginal = {
+      projectId,
+      transcriptId,
+      ...data
+    };
+    const newTranscriptDataStt = db.create('transcript-stt-original', newTranscriptDataSttOriginal);
+    return newTranscriptDataStt;
+  }
+
+  async getOriginalSttTranscripts(projectId, transcriptId) {
+    const transcript = db.get('transcript-stt-original', { transcriptId: transcriptId, projectId });
+    
+    return transcript;
   }
 }
 

@@ -5,7 +5,7 @@ const { app } = require('electron').remote;
 const dataPath = app.getPath('userData');
 const appPath = app.getAppPath();
 
-const models = [ 'projects', 'transcripts', 'annotations', 'labels', 'paperedits' ];
+const models = [ 'projects', 'transcripts', 'annotations', 'labels', 'paperedits','transcript-stt-original'];
 // const currentWindow = electron.remote.getCurrentWindow();
 /* eslint-disable class-methods-use-this */
 class DBWrapper {
