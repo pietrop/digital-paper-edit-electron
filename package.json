@@ -161,6 +161,7 @@
     "electron-updater": "^4.1.2",
     "ffmpeg-static-electron": "^2.0.1",
     "ffprobe-static-electron": "^2.0.0",
+    "five-min-stt": "^1.0.1",
     "fluent-ffmpeg": "^2.1.2",
     "react": "^16.11.0",
     "react-bootstrap": "^1.0.0-beta.14",
