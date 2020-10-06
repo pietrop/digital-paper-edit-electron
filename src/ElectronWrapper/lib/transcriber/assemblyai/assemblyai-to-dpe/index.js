@@ -10,16 +10,16 @@ function reorganisedWords(words) {
       id: index,
       text: sw.text,
       start: parseFloat(convertMillisecondToSecond(sw.start)),
-      end: parseFloat(convertMillisecondToSecond(sw.end))
+      end: parseFloat(convertMillisecondToSecond(sw.end)),
     };
   });
 }
 
-const addSpeakerIdToWords = (words) => {
+const addSpeakerIdToWords = words => {
   const wordsResults = [];
   let paragraphId = 0;
   const reorgedWords = reorganisedWords(words);
-  reorgedWords.forEach((word) => {
+  reorgedWords.forEach(word => {
     // if word contains punctuation
     if (/[.?!]/.test(word.text)) {
       word.paragraphId = paragraphId;
@@ -34,26 +34,25 @@ const addSpeakerIdToWords = (words) => {
   return wordsResults;
 };
 
-const generateDpeParagraphs = (words) => {
+const generateDpeParagraphs = words => {
   const wordsList = addSpeakerIdToWords(words);
   const paragraphs = [];
   let paragraph = {};
 
-  const paragraphIdsList = wordsList.map((paragraph) => {
+  const paragraphIdsList = wordsList.map(paragraph => {
     return paragraph.paragraphId;
   });
 
-  const paragraphIdsListUniqueValues = [ ...new Set(paragraphIdsList) ];
+  const paragraphIdsListUniqueValues = [...new Set(paragraphIdsList)];
 
-  paragraphIdsListUniqueValues.forEach((paraId) => {
-
-    const wordsListForParagraph = wordsList.filter((word)=>{
+  paragraphIdsListUniqueValues.forEach(paraId => {
+    const wordsListForParagraph = wordsList.filter(word => {
       return word.paragraphId == paraId;
-    })
+    });
 
-    const firstWord = wordsListForParagraph[0]
+    const firstWord = wordsListForParagraph[0];
 
-    const lastWord = wordsListForParagraph[wordsListForParagraph.length-1];
+    const lastWord = wordsListForParagraph[wordsListForParagraph.length - 1];
 
     paragraph.start = firstWord.start;
     paragraph.end = lastWord.end;
@@ -65,10 +64,27 @@ const generateDpeParagraphs = (words) => {
   return paragraphs;
 };
 
-const convert = (data) => {
+const getDpeParagraphsFromUtterances = utterances => {
+  return utterances.map(paragraph => {
+    const { end, start, speaker } = paragraph;
+    return {
+      end: convertMillisecondToSecond(end),
+      start: convertMillisecondToSecond(start),
+      speaker,
+    };
+  });
+};
+
+const convert = data => {
   const { words } = data;
   const wordsReorged = reorganisedWords(words);
-  const paragraphs = generateDpeParagraphs(data.words);
+  let paragraphs;
+  // fallback if the speaker diarization / utterances are not present, just splits on paragraphs
+  if (data.utterances) {
+    paragraphs = getDpeParagraphsFromUtterances(data.utterances);
+  } else {
+    paragraphs = generateDpeParagraphs(data.words);
+  }
 
   return { words: wordsReorged, paragraphs };
 };

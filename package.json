@@ -1,7 +1,7 @@
 {
   "name": "digital-paper-edit-electron",
   "productName": "autoEdit 3",
-  "version": "1.2.15",
+  "version": "1.2.16",
   "description": "Digital Paper Edit app",
   "main": "src/electron-main.js",
   "scripts": {
@@ -161,7 +161,7 @@
     "webpack": "^4.41.4"
   },
   "dependencies": {
-    "@pietrop/assemblyai": "^2.0.1",
+    "@pietrop/assemblyai": "^2.0.2",
     "@pietrop/digital-paper-edit-client": "^1.8.10",
     "async": "^3.2.0",
     "bootstrap-css-only": "^4.3.1",
