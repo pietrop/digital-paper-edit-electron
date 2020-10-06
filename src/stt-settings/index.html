@@ -28,7 +28,7 @@
     import Form from "react-bootstrap/Form";
     import Alert from "react-bootstrap/Alert";
     import { getDefaultStt, setDefaultStt } from "./default-stt.js";
-    import speechmaticsLanguages from "./language-options/speechmatics.json";
+    import IBMWatsonLanguages from "./language-options/ibmwatson.json";
     import assemblyAiLanguages from "./language-options/assemblyai.json";
     import {
       getCredentials,
@@ -108,12 +108,11 @@
         if ((tmpDefaultStt === 'AssemblyAI') && (!tmpLangueModel || !tmpLangueModel.includes('assemblyai_'))) {
           tmpLangueModel = 'assemblyai_default';
         }
-
         if ((tmpDefaultStt === 'AssemblyAI') && (!tmpLanguage || !tmpLanguage.includes('assemblyai_'))) {
           tmpLanguage = 'assemblyai_default'
-        }
-        else if (tmpDefaultStt === 'Speechmatics') {
-          tmpLanguage = 'en';
+        } else if (tmpDefaultStt === 'IBMWatson') {
+          // Language is actually language code in the json list of languages
+          tmpLanguage = 'en-US_BroadbandModel';
           tmpLangueModel = null;
         } else if (tmpDefaultStt === 'pocketsphinx') {
           tmpLanguage = null;
@@ -188,8 +187,8 @@
               </option>
           ];
         }
-        if (this.state.defaultStt === "Speechmatics") {
-          languagesOptions = speechmaticsLanguages.map((language, index) => {
+        if (this.state.defaultStt === "IBMWatson") {
+          languagesOptions = IBMWatsonLanguages.map((language, index) => {
             return (
               <option key={language.code} value={language.code}>
                 {language.language}
@@ -210,9 +209,9 @@
 
         let languageToDisplay = "English";
         console.log("this.state.provider ", this.state.defaultStt);
-        if (this.state.defaultStt === "Speechmatics") {
+        if (this.state.defaultStt === "IBMWatson") {
           console.log("here!");
-          languageToDisplay = speechmaticsLanguages.find(language => {
+          languageToDisplay = IBMWatsonLanguages.find(language => {
             return language.code === this.state.language;
           });
           console.log("languageToDisplay", languageToDisplay);
@@ -257,7 +256,7 @@
                 onChange={this.handleChangeDefaultStt}
               >
                 <option value="AssemblyAI">AssemblyAI</option>
-                <option value="Speechmatics">Speechmatics</option>
+                <option value="IBMWatson">IBM Watson</option>
                 <option value="deepspeech">
                   Mozilla Deepspeech (offline){" "}
                 </option>
@@ -382,6 +381,7 @@
         this.setState({ sttUserName: event.target.value });
       };
       handleSTTAPIKeyChange = event => {
+        console.log(' event.target.value ', event.target.value, event.target)
         this.setState({ sttAPIKey: event.target.value });
       };
 
@@ -429,17 +429,17 @@
 
               {this.state.sttUserName !== false ? (
                 <Form.Group controlId="sttUserName">
-                  <Form.Label>STT user name</Form.Label>
-                  <Form.Control
+                  <Form.Label>{this.props.provider === 'IBMWatson' ? "IBM STT Username" : "STT user name"}</Form.Label>
+                  < Form.Control
                     type="text"
-                    placeholder="Enter the STT user name"
+                    placeholder={this.props.provider === 'IBMWatson' ? <span>Your IBM STT username. Unless you are using IAM Key, in which case just type <code>apikey</code> instead, without the quotes</span> : "STT user name"}
                     value={this.state.sttUserName}
-                    // defaultValue={ this.state.sttAPIKey }
+                    // defaultValue={this.state.sttAPIKey}
                     onChange={this.handlesttUserNameChange}
                     required
                   />
                   <Form.Text className="text-muted">
-                    STT user name provided by {this.props.provider}
+                    {this.props.provider === 'IBMWatson' ? <span>Your IBM STT username. Unless you are using IAM Key, in which case just type <code>apikey</code> instead, without the quotes</span> : `STT user name provided by ${this.props.provider}`}
                   </Form.Text>
                   <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   <Form.Control.Feedback type="invalid">
@@ -450,22 +450,26 @@
 
               {this.state.sttAPIKey !== false ? (
                 <Form.Group controlId="sttAPIKey">
-                  <Form.Label>API Key</Form.Label>
+                  <Form.Label>  {this.props.provider === 'IBMWatson' ? "IBM STT IAM API Key or Password" : "API Key"}
+                  </Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter the API Key"
+                    placeholder={this.props.provider === 'IBMWatson' ? "Your IBM STT Password. 'apikey' code." : "API Key"}
                     value={this.state.sttAPIKey}
-                    // defaultValue={ this.state.sttAPIKey }
+                    // defaultValue={this.state.sttAPIKey}
                     onChange={this.handleSTTAPIKeyChange}
                     required
                   />
                   <Form.Text className="text-muted">
-                    API Key provided by {this.props.provider}
+
+                    {this.props.provider === 'IBMWatson' ? <span>Your IBM STT Password. Unless you are using IAM Key, in which case just put the IAM API Key instead. The <code>apikey</code> code.</span> : `API Key provided by ${this.props.provider}`}
+
                   </Form.Text>
                   <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   <Form.Control.Feedback type="invalid">
-                    Please add the Speech To Text API Key
-                    </Form.Control.Feedback>
+
+                    {this.props.provider === 'IBMWatson' ? <span>  Please add your IBM STT Password. Unless you are using IAM Key, in which case just put the IAM API Key instead. The <code>apikey</code> code.</span> : `  Please add the Speech To Text API Key`}
+                  </Form.Control.Feedback>
                 </Form.Group>
               ) : null}
 
@@ -474,19 +478,20 @@
                   <Form.Label>API URL</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter the STT API URL"
+                    placeholder="https://gateway-syd.watsonplatform.net/speech-to-text/api"
                     value={this.state.sttAPIUrl}
                     // defaultValue={ this.state.sttAPIUrl }
                     onChange={this.handleSTTAPIUrlChange}
                     required
                   />
                   <Form.Text className="text-muted">
-                    API Key provided by {this.props.provider}
+
+                    {this.props.provider === 'IBMWatson' ? <span>this is the same <code>url</code> field, regardless of which one you are using</span> : `STT API URL provided by ${this.props.provider}`}
                   </Form.Text>
                   <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   <Form.Control.Feedback type="invalid">
-                    Please add the Speech To Text API Key
-                    </Form.Control.Feedback>
+                    {this.props.provider === 'IBMWatson' ? <span>this is the same <code>url</code> field, regardless of which one you are using</span> : ` STT API URL provided by ${this.props.provider}`}
+                  </Form.Control.Feedback>
                 </Form.Group>
               ) : null}
 
@@ -495,7 +500,7 @@
                 Save {this.props.provider} credentials
                 </Button>
             </Form>
-          </div>
+          </div >
         );
       }
     }
@@ -505,24 +510,28 @@
         super(props);
         this.state = {
           saved: false,
-          speechmaticsSTTUsername: false,
-          speechmaticsApiKey: false,
+          IBMWatsonSTTUsername: false,
+          IBMWatsonApiKey: false,
           assemblyAISttAPIKey: false,
           isDeepspeechModelSet: false,
+          IBMWatsonAPIUrl: "https://gateway-syd.watsonplatform.net/speech-to-text/api",
           currentSavedProvider: ""
         };
       }
 
       componentDidMount = () => {
-        const speechmaticsCredentials = getCredentials("Speechmatics");
-        // console.log('speechmaticsCredentials', speechmaticsCredentials);
+        const IBMWatsonCredentials = getCredentials("IBMWatson");
+        console.log('IBMWatsonCredentials', IBMWatsonCredentials);
+        console.log('IBMWatsonCredentials.sttAPIKey', JSON.stringify(IBMWatsonCredentials.sttAPIKey))
+        console.log('end', IBMWatsonCredentials.sttAPIKey)
         const assemblyAiCred = getCredentials("AssemblyAI");
         // console.log('AssemblyAICredentials',AssemblyAICredentials)
         const isDeepspeechModelSet = getIsDeepspeechModelSet();
         this.setState(
           {
-            speechmaticsSTTUsername: speechmaticsCredentials.sttUserName,
-            speechmaticsApiKey: speechmaticsCredentials.sttAPIKey,
+            IBMWatsonSTTUsername: IBMWatsonCredentials.sttUserName,
+            IBMWatsonApiKey: IBMWatsonCredentials.sttAPIKey,
+            IBMWatsonAPIUrl: IBMWatsonCredentials.sttAPIUrl,
             assemblyAISttAPIKey: assemblyAiCred.sttAPIKey,
             isDeepspeechModelSet: isDeepspeechModelSet
           },
@@ -583,14 +592,14 @@
                       />
                     </Tab>
                   ) : null}
-                  {this.state.speechmaticsSTTUsername !== false &&
-                    this.state.speechmaticsApiKey !== false ? (
-                      <Tab eventKey="speechmatics" title="Speechmatics">
+                  {this.state.IBMWatsonSTTUsername !== false &&
+                    this.state.IBMWatsonApiKey !== false ? (
+                      <Tab eventKey="IBMWatson" title="IBMWatson">
                         <SettingsForm
-                          sttUserName={this.state.speechmaticsSTTUsername}
-                          sttAPIKey={this.state.speechmaticsApiKey}
-                          sttAPIUrl={false}
-                          provider={"Speechmatics"}
+                          sttUserName={this.state.IBMWatsonSTTUsername}
+                          sttAPIKey={this.state.IBMWatsonApiKey}
+                          sttAPIUrl={this.state.IBMWatsonAPIUrl}
+                          provider={"IBMWatson"}
                           handleSave={this.handleSave}
                         />
                       </Tab>

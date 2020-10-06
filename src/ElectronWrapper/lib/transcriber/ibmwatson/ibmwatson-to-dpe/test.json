@@ -1,0 +1,81 @@
+{
+  "paragraphs": [
+    {
+      "start": 0.15,
+      "end": 6.04,
+      "speaker": "U_UKN"
+    }
+  ],
+  "words": [
+    {
+      "start": 0.15,
+      "end": 0.3,
+      "text": "a"
+    },
+    {
+      "start": 0.3,
+      "end": 0.64,
+      "text": "line"
+    },
+    {
+      "start": 0.64,
+      "end": 0.73,
+      "text": "of"
+    },
+    {
+      "start": 0.73,
+      "end": 1.08,
+      "text": "severe"
+    },
+    {
+      "start": 1.08,
+      "end": 1.85,
+      "text": "thunderstorms"
+    },
+    {
+      "start": 1.85,
+      "end": 2,
+      "text": "with"
+    },
+    {
+      "start": 2,
+      "end": 2.52,
+      "text": "several"
+    },
+    {
+      "start": 2.52,
+      "end": 3.03,
+      "text": "possible"
+    },
+    {
+      "start": 3.03,
+      "end": 3.85,
+      "text": "tornadoes"
+    },
+    {
+      "start": 3.95,
+      "end": 4.13,
+      "text": "is"
+    },
+    {
+      "start": 4.13,
+      "end": 4.58,
+      "text": "approaching"
+    },
+    {
+      "start": 4.58,
+      "end": 5.16,
+      "text": "Colorado"
+    },
+    {
+      "start": 5.16,
+      "end": 5.32,
+      "text": "on"
+    },
+    {
+      "start": 5.32,
+      "end": 6.04,
+      "text": "Sunday"
+    }
+  ]
+}

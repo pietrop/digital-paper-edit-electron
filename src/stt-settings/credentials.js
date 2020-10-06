@@ -81,6 +81,11 @@ function getCredentials(provider) {
 
     return credentials;
   } else {
+    if (provider === 'IBMWatson') {
+      credentials.sttUserName = 'apikey';
+      credentials.sttAPIKey = '';
+      credentials.sttAPIUrl = 'https://gateway-syd.watsonplatform.net/speech-to-text/api';
+    }
     return credentials;
   }
 }
@@ -90,7 +95,9 @@ function areCredentialsSet(provider) {
   switch (provider) {
     case 'AssemblyAI':
       return credentials.sttAPIKey !== '';
-    case 'Speechmatics':
+    // case 'Speechmatics':
+    //   return credentials.sttUserName !== '' && credentials.sttAPIKey !== '';
+    case 'IBMWatson':
       return credentials.sttUserName !== '' && credentials.sttAPIKey !== '';
     default:
       console.error(`Could not find credentials for provier: ${provider}`);

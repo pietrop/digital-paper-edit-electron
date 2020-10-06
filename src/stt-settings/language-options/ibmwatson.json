@@ -1,0 +1,154 @@
+[
+    {
+        "code": "ar-AR_BroadbandModel",
+        "language": "Arabic (Modern Standard) - Boardband"
+    },
+    {
+        "code": "pt-BR_BroadbandModel",
+        "language": "Brazilian Portuguese - Boardband"
+    },
+    {
+        "code": "pt-BR_NarrowbandModel",
+        "language": "Brazilian Portuguese - Narrowband"
+    },
+    {
+        "code": "zh-CN_BroadbandModel",
+        "language": "Chinese (Mandarin)- Boardband"
+    },
+    {
+        "code": "zh-CN_NarrowbandModel",
+        "language": "Chinese (Mandarin)- Narrowband"
+    },
+    {
+        "code": "nl-NL_BroadbandModel",
+        "language": "Dutch - Boardband"
+    },
+    {
+        "code": "nl-NL_NarrowbandModel",
+        "language": "Dutch - Narrowband"
+    },
+    {
+        "code": "en-AU_BroadbandModel",
+        "language": "English (Australian, Beta) - Boardband"
+    },
+    {
+        "code": "en-AU_NarrowbandModel",
+        "language": "English (Australian, Beta) - Narrowband"
+    },
+    {
+        "code": "en-GB_BroadbandModel",
+        "language": "English (United Kingdom) - Boardband"
+    },
+    {
+        "code": "en-GB_NarrowbandModel",
+        "language": "English (United Kingdom) - Narrowband"
+    },
+    {
+        "code": "en-US_BroadbandModel",
+        "language": "English (United States) - Boardband"
+    },
+    {
+        "code": "en-US_NarrowbandModel",
+        "language": "English (United States) - Narrowband"
+    },
+    {
+        "code": "US_ShortForm_NarrowbandModel",
+        "language": "English (United States) - ShortFormNarrowband"
+    },
+    {
+        "code": "fr-FR_BroadbandModel",
+        "language": "French - Boardband"
+    },
+    {
+        "code": "fr-FR_NarrowbandModel",
+        "language": "French - Narrowband"
+    },
+    {
+        "code": "fr-CA_BroadbandModel",
+        "language": "French (Canadian, Beta) - Boardband"
+    },
+    {
+        "code": "fr-CA_NarrowbandModel",
+        "language": "French (Canadian, Beta) - Narrowband"
+    },
+    {
+        "code": "de-DE_BroadbandModel",
+        "language": "German - Boardband"
+    },
+    {
+        "code": "de-DE_NarrowbandModel",
+        "language": "German - Narrowband"
+    },
+    {
+        "code": "it-IT_BroadbandModel",
+        "language": "Italian - Boardband"
+    },
+    {
+        "code": "it-IT_NarrowbandModel",
+        "language": "Italian - Narrowband"
+    },
+    {
+        "code": "ja-JP_BroadbandModel",
+        "language": "Japanese - Boardband"
+    },
+    {
+        "code": "ja-JP_NarrowbandModel",
+        "language": "Japanese - Narrowband"
+    },
+    {
+        "code": "ko-KR_BroadbandModel",
+        "language": "Korean - Boardband"
+    },
+    {
+        "code": "ko-KR_NarrowbandModel",
+        "language": "Korean - Narrowband"
+    },
+    {
+        "code": "es-AR_BroadbandModel",
+        "language": "Spanish (Argentinian, Beta) - Boardband"
+    },
+    {
+        "code": "es-AR_NarrowbandModel",
+        "language": "Spanish (Argentinian, Beta) - Narrowband"
+    },
+    {
+        "code": "es-ES_BroadbandModel",
+        "language": "Spanish (Castilian) - Boardband"
+    },
+    {
+        "code": "es-ES_NarrowbandModel",
+        "language": "Spanish (Castilian) - Narrowband"
+    },
+    {
+        "code": "es-CL_BroadbandModel",
+        "language": "Spanish (Chilean, Beta) - Boardband"
+    },
+    {
+        "code": "es-CL_NarrowbandModel",
+        "language": "Spanish (Chilean, Beta) - Narrowband"
+    },
+    {
+        "code": "es-CO_BroadbandModel",
+        "language": "Spanish (Colombian, Beta) - Boardband"
+    },
+    {
+        "code": "es-CO_NarrowbandModel",
+        "language": "Spanish (Colombian, Beta) - Narrowband"
+    },
+    {
+        "code": "es-MX_BroadbandModel",
+        "language": "Spanish (Mexican, Beta) - Boardband"
+    },
+    {
+        "code": "es-MX_NarrowbandModel",
+        "language": "Spanish (Mexican, Beta) - Narrowband"
+    },
+    {
+        "code": "es-PE_BroadbandModel",
+        "language": "Spanish (Peruvian, Beta) - Boardband"
+    },
+    {
+        "code": "es-PE_NarrowbandModel",
+        "language": "Spanish (Peruvian, Beta) - Narrowband"
+    }
+]
