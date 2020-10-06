@@ -70,7 +70,8 @@ const getDpeParagraphsFromUtterances = utterances => {
     return {
       end: convertMillisecondToSecond(end),
       start: convertMillisecondToSecond(start),
-      speaker,
+      // speaker info/label comes as a letter, eg 'A', 'B','C' etc..
+      speaker: `SPEAKER_${speaker}`,
     };
   });
 };
