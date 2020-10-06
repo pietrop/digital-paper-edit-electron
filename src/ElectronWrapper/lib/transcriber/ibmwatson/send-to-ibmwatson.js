@@ -65,27 +65,36 @@ const sendToIBMWatson = (audioFile, keys, language) => {
   let speechToText;
   // If the username is 'apikey', we're using a newer Watson STT instance, so we'll add the iam_apikey property and set an instance
   // endpoint URL if there is one.
-  if (keys.username === 'apikey') {
-    speechToText = new SpeechToTextV1({
-      authenticator: new IamAuthenticator({
-        apikey: keys.password,
-      }),
-      serviceUrl: keys.url,
-    });
-  } else {
-    speechToText = new SpeechToTextV1({
-      authenticator: new BasicAuthenticator({
-        username: keys.username,
-        password: keys.password,
-      }),
-      serviceUrl: keys.url,
-    });
-  }
+  // if (keys.username === 'apikey') {
+  speechToText = new SpeechToTextV1({
+    authenticator: new IamAuthenticator({
+      apikey: keys.password,
+    }),
+    serviceUrl: keys.url,
+    // disableSslVerification: true,
+    headers: {
+      'X-Watson-Learning-Opt-Out': 'true',
+    },
+  });
+  // } else {
+  //   speechToText = new SpeechToTextV1({
+  //     authenticator: new BasicAuthenticator({
+  //       username: keys.username,
+  //       password: keys.password,
+  //     }),
+  //     serviceUrl: keys.url,
+  //     // disableSslVerification: true,
+  //     headers: {
+  //       'X-Watson-Learning-Opt-Out': 'true',
+  //     },
+  //   });
+  // }
 
   // recognizeParams to send to IBM STT API request
   const recognizeParams = {
     audio: fs.createReadStream(audioFile),
     contentType: 'audio/wav',
+    // contentType: 'application/octet-stream',
     model: language,
     // The time in seconds after which, if only silence (no speech) is detected in submit  ted audio, the connection is closed with a 400 response code. The default is 30 seconds. Useful for stopping audio submission from a live microphone when a user simply walks away. Use -1 for infinity.
     inactivityTimeout: -1,
@@ -108,7 +117,12 @@ const sendToIBMWatson = (audioFile, keys, language) => {
   return new Promise((resolve, reject) => {
     console.log('here!!!0', recognizeParams);
     return speechToText
-      .recognize(recognizeParams)
+      .recognize(recognizeParams
+      //   , [
+      //   res => {
+      //     console.log('res', res);
+      //   },
+      // ])
       .then(speechRecognitionResults => {
         console.log('here!!!1');
         console.log(JSON.stringify(speechRecognitionResults, null, 2));
