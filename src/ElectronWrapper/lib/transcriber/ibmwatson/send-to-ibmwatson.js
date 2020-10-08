@@ -117,14 +117,7 @@ const sendToIBMWatson = (audioFile, keys, language) => {
   return new Promise((resolve, reject) => {
     console.log('here!!!0', recognizeParams);
     return speechToText
-      .recognize(
-        recognizeParams
-        //   , [
-        //   res => {
-        //     console.log('res', res);
-        //   },
-        // ]
-      )
+      .recognize(recognizeParams)
       .then(speechRecognitionResults => {
         console.log('here!!!1');
         console.log(JSON.stringify(speechRecognitionResults, null, 2));
