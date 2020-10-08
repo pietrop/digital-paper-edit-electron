@@ -1,4 +1,5 @@
 const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron');
+require('update-electron-app')();
 const url = require('url');
 const path = require('path');
 // set userData to use `digital-paper-edit-electron` to be backward compatible before name change from `digital-paper-edit-electron` to `autoEdit 3`;

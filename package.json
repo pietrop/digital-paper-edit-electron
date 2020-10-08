@@ -175,6 +175,7 @@
     "react": "^16.11.0",
     "react-bootstrap": "^1.0.0-beta.14",
     "react-dom": "^16.10.2",
-    "tmp": "^0.1.0"
+    "tmp": "^0.1.0",
+    "update-electron-app": "^2.0.1"
   }
 }
