@@ -5,7 +5,8 @@ const appUserDataPath = ipcRenderer.sendSync('synchronous-message-get-user-data-
 const defaultSttTemplate = {
   // Provider could be '' unspecified,
   // or pocketsphinx, to give a working default to the app.
-  provider: 'pocketsphinx',
+  // altho having pocketsphinx as default causes issue in windows version where it's not available
+  provider: '',
   language: null,
   languageModel: null,
 };
