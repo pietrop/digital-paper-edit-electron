@@ -5,8 +5,11 @@ const { ipcRenderer } = require('electron');
 const appUserDataPath = ipcRenderer.sendSync('synchronous-message-get-user-data-folder', 'ping');
 // TODO: consider moving deepspeech logic to a separate file from credentials.js?
 
-function getDeepSpeechModelFolderName(modelVersion = '0.6.0') {
-  return `deepspeech-${modelVersion}-models`;
+const DEEP_SPEECH_MODEL_V = '0.9.3';
+
+function getDeepSpeechModelFolderName(modelVersion = DEEP_SPEECH_MODEL_V) {
+  // return `deepspeech-${modelVersion}-models`;
+  return 'models';
 }
 
 function getDeepSpeechModelPath(deepspeechModelVersion) {
@@ -23,29 +26,29 @@ function getIsDeepspeechModelSet() {
   const isDeepSpeechModelPath = fs.existsSync(deepSpeechModelPath);
   // Extra checks to make sure the files needed by the model exists
   //  "output_graph.pbmm"
-  const outputGraphPbmmPath = path.join(deepSpeechModelPath, 'output_graph.pbmm');
+  const outputGraphPbmmPath = path.join(deepSpeechModelPath, 'deepspeech-0.9.3-models.pbmm');
   const isOutputGraphPbmmPath = fs.existsSync(outputGraphPbmmPath);
   //  "lm.binary"
-  const lmBinaryPath = path.join(deepSpeechModelPath, 'lm.binary');
-  const islBinaryPath = fs.existsSync(lmBinaryPath);
+  // const lmBinaryPath = path.join(deepSpeechModelPath, 'lm.binary');
+  // const islBinaryPath = fs.existsSync(lmBinaryPath);
   // "trie"
-  const triePath = path.join(deepSpeechModelPath, 'trie');
-  const isTriePath = fs.existsSync(triePath);
+  // const triePath = path.join(deepSpeechModelPath, 'trie');
+  // const isTriePath = fs.existsSync(triePath);
 
   return isDeepSpeechModelPath && isTriePath && islBinaryPath && isOutputGraphPbmmPath;
 }
 
-function setDeepSpeechModel() {
+function setDeepSpeechModel(progressCallback) {
   console.log('setDeepSpeechModel');
   const outputPath = path.join(appUserDataPath); //getDeepSpeechModelPath();
 
   return new Promise((resolve, reject) => {
-    downloadDeepSpeechModel(outputPath)
-      .then(res => {
+    downloadDeepSpeechModel(outputPath, DEEP_SPEECH_MODEL_V, progressCallback)
+      .then((res) => {
         console.log('res', res);
         resolve(res);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('error setting up the Deepspeech model, during download', error);
         reject(error);
       });
