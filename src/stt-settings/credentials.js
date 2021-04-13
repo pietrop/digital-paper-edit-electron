@@ -35,7 +35,8 @@ function getIsDeepspeechModelSet() {
   // const triePath = path.join(deepSpeechModelPath, 'trie');
   // const isTriePath = fs.existsSync(triePath);
 
-  return isDeepSpeechModelPath && isTriePath && islBinaryPath && isOutputGraphPbmmPath;
+  // return isDeepSpeechModelPath && isTriePath && islBinaryPath && isOutputGraphPbmmPath;
+  return isDeepSpeechModelPath && isOutputGraphPbmmPath;
 }
 
 function setDeepSpeechModel(progressCallback) {
