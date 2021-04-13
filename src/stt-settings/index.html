@@ -264,7 +264,7 @@
                 onChange={this.handleChangeDefaultStt}
               >
                 <option value="AssemblyAI">AssemblyAI</option>
-                <option value="Speechmatics">Speechmatics</option>
+                {/*<option value="Speechmatics">Speechmatics</option>*/}
                 <option value="deepspeech">
                   Mozilla Deepspeech (offline){" "}
                 </option>
@@ -590,7 +590,8 @@
                       />
                     </Tab>
                   ) : null}
-                  {this.state.speechmaticsSTTUsername !== false &&
+                  {/*commenting out speechmatics, while waiting for a more substantial refactor to remove it or replace it with IMB Watson */}
+                  {false && this.state.speechmaticsSTTUsername !== false &&
                     this.state.speechmaticsApiKey !== false ? (
                     <Tab eventKey="speechmatics" title="Speechmatics">
                       <SettingsForm
