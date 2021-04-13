@@ -62,8 +62,8 @@
               {this.props.heading ? (
                 <Alert.Heading>{this.props.heading}</Alert.Heading>
               ) : (
-                  ""
-                )}
+                ""
+              )}
               {this.props.message}
             </Alert>
           );
@@ -83,7 +83,8 @@
         this.state = {
           defaultStt: "",
           language: null,
-          languageModel: null
+          languageModel: null,
+          deepspeechDownloadProgress: 0
         };
       }
 
@@ -160,12 +161,18 @@
         });
       };
 
+      progressCallback = (progressData) => {
+        this.setState({
+          deepspeechDownloadProgress: progressData
+        })
+      }
+
       handleDownloadDeepspeechModel = async () => {
         console.log("handleDownloadDeepspeechModel");
         this.setState({
           downloadingDeepspeech: true
         });
-        setDeepSpeechModel().then(res => {
+        setDeepSpeechModel(this.progressCallback).then(res => {
           this.setState({
             isDeepspeechModelSet: true,
             downloadingDeepspeech: false
@@ -257,7 +264,7 @@
                 onChange={this.handleChangeDefaultStt}
               >
                 <option value="AssemblyAI">AssemblyAI</option>
-                <option value="Speechmatics">Speechmatics</option>
+                {/*<option value="Speechmatics">Speechmatics</option>*/}
                 <option value="deepspeech">
                   Mozilla Deepspeech (offline){" "}
                 </option>
@@ -276,67 +283,67 @@
               // this.state.defaultStt !== "AssemblyAI" &&
               this.state.defaultStt !== "pocketsphinx" &&
                 this.state.defaultStt !== "deepspeech" ? (
-                  <Form.Group controlId="exampleForm.ControlSelect1">
-                    <Form.Label>Default Speech To Text language</Form.Label>
-                    <Form.Control
-                      as="select"
-                      value={this.state.language}
-                      onChange={this.handleChangeLanguage}
-                    >
-                      {languagesOptions}
-                    </Form.Control>
-                    <Form.Text className="text-muted">
-                      Choose the default STT language you would like to use for
-                      your transcriptions
+                <Form.Group controlId="exampleForm.ControlSelect1">
+                  <Form.Label>Default Speech To Text language</Form.Label>
+                  <Form.Control
+                    as="select"
+                    value={this.state.language}
+                    onChange={this.handleChangeLanguage}
+                  >
+                    {languagesOptions}
+                  </Form.Control>
+                  <Form.Text className="text-muted">
+                    Choose the default STT language you would like to use for
+                    your transcriptions
                   </Form.Text>
-                  </Form.Group>
-                ) : (
-                  <React.Fragment>
-                    <Form.Label>Default Speech To Text language</Form.Label>
-                    <Form.Text className="text-muted">
-                      Only English available as default{" "}
-                    </Form.Text>
+                </Form.Group>
+              ) : (
+                <React.Fragment>
+                  <Form.Label>Default Speech To Text language</Form.Label>
+                  <Form.Text className="text-muted">
+                    Only English available as default{" "}
+                  </Form.Text>
 
-                    {this.state.defaultStt === "deepspeech" && !this.state.downloadingDeepspeech ? (
-                      this.state.isDeepspeechModelSet ? (
-                        <Form.Text className="text-info">
-                          You have downloaded the Deepspeech STT model (1.8gb) and
-                          are ready to go
-                        </Form.Text>
-                      ) : (
-                          <React.Fragment>
-                            <br />
-                            <CustomAlert
-                              variant={"info"}
-                              message={
-                                <React.Fragment>
-                                  <p>
-                                    You need to download the Mozilla Deepspeech STT
-                                    Model (1.8gb) to be able to use this STT Engine
-                                    (offline)
-                              </p>
-                                  <Button
-                                    variant="outline-info"
-                                    block
-                                    onClick={this.handleDownloadDeepspeechModel}
-                                  >
-                                    Download
-                              </Button>
-                                </React.Fragment>
-                              }
-                            />
-                          </React.Fragment>
-                        )
-                    ) : null}
-
-                    {this.state.downloadingDeepspeech ? (
+                  {this.state.defaultStt === "deepspeech" && !this.state.downloadingDeepspeech ? (
+                    this.state.isDeepspeechModelSet ? (
+                      <Form.Text className="text-info">
+                        You have downloaded the Deepspeech STT model (1.8gb) and
+                        are ready to go
+                      </Form.Text>
+                    ) : (
                       <React.Fragment>
-                        <h6>Downloading Deepspeech model</h6>
-                        <ProgressBar animated now={100} />
+                        <br />
+                        <CustomAlert
+                          variant={"info"}
+                          message={
+                            <React.Fragment>
+                              <p>
+                                You need to download the Mozilla Deepspeech STT
+                                Model (1.8gb) to be able to use this STT Engine
+                                (offline)
+                              </p>
+                              <Button
+                                variant="outline-info"
+                                block
+                                onClick={this.handleDownloadDeepspeechModel}
+                              >
+                                Download
+                              </Button>
+                            </React.Fragment>
+                          }
+                        />
                       </React.Fragment>
-                    ) : null}
-                  </React.Fragment>
-                )}
+                    )
+                  ) : null}
+
+                  {this.state.downloadingDeepspeech ? (
+                    <React.Fragment>
+                      <h6>Downloading Deepspeech model</h6>
+                      <ProgressBar animated now={this.state.deepspeechDownloadProgress} label={`${parseInt(this.state.deepspeechDownloadProgress)}%`} />
+                    </React.Fragment>
+                  ) : null}
+                </React.Fragment>
+              )}
 
 
             {this.state.defaultStt === "AssemblyAI" &&
@@ -583,18 +590,19 @@
                       />
                     </Tab>
                   ) : null}
-                  {this.state.speechmaticsSTTUsername !== false &&
+                  {/*commenting out speechmatics, while waiting for a more substantial refactor to remove it or replace it with IMB Watson */}
+                  {false && this.state.speechmaticsSTTUsername !== false &&
                     this.state.speechmaticsApiKey !== false ? (
-                      <Tab eventKey="speechmatics" title="Speechmatics">
-                        <SettingsForm
-                          sttUserName={this.state.speechmaticsSTTUsername}
-                          sttAPIKey={this.state.speechmaticsApiKey}
-                          sttAPIUrl={false}
-                          provider={"Speechmatics"}
-                          handleSave={this.handleSave}
-                        />
-                      </Tab>
-                    ) : null}
+                    <Tab eventKey="speechmatics" title="Speechmatics">
+                      <SettingsForm
+                        sttUserName={this.state.speechmaticsSTTUsername}
+                        sttAPIKey={this.state.speechmaticsApiKey}
+                        sttAPIUrl={false}
+                        provider={"Speechmatics"}
+                        handleSave={this.handleSave}
+                      />
+                    </Tab>
+                  ) : null}
                 </Tabs>
               </Tab>
             </Tabs>
