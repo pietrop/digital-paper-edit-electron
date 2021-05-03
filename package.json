@@ -162,7 +162,7 @@
   },
   "dependencies": {
     "@pietrop/assemblyai": "^2.0.2",
-    "@pietrop/digital-paper-edit-client": "^1.9.0",
+    "@pietrop/digital-paper-edit-client": "^1.9.0-alpha.1",
     "async": "^3.2.0",
     "bootstrap-css-only": "^4.3.1",
     "debug": "^4.1.1",
