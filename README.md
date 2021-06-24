@@ -1,4 +1,4 @@
-# Digital Paper Edit - Electron
+# Digital Paper Edit - Electron app
 
 Electron Cross Platform Desktop app
 
