@@ -129,4 +129,6 @@ npm run build:l
 
 The build, packaged app will be in the `/dist` folder.
 
+
+Github action [action-electron-builder](https://github.com/samuelmeuli/action-electron-builder)
 <!-- 1.6.0 -->
